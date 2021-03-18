@@ -30,7 +30,8 @@ namespace WebApiApp
             services.AddDbContext<CommanderContext>(opt => opt.UseSqlServer(Configuration.GetConnectionString("Default")));
             services.AddControllers();
 
-            services.AddScoped<ICommanderRepository, MockCommanderRepository>();
+            //services.AddScoped<ICommanderRepository, MockCommanderRepository>();
+            services.AddScoped<ICommanderRepository, CommanderRepository>();
 
             services.AddSwaggerGen(c =>
             {
