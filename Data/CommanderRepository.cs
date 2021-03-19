@@ -6,7 +6,7 @@ using WebApiApp.Models;
 
 namespace WebApiApp.Data
 {
-    public class CommanderRepository:ICommanderRepository
+    public class CommanderRepository : ICommanderRepository
     {
         private readonly CommanderContext _commanderContext;
 
@@ -14,6 +14,12 @@ namespace WebApiApp.Data
         {
             _commanderContext = commanderContext;
         }
+
+        public bool SaveChanges()
+        {
+            return _commanderContext.SaveChanges() >= 0;
+        }
+
         public IEnumerable<Command> GetAllCommands()
         {
             return _commanderContext.Commands.ToList();
@@ -22,6 +28,30 @@ namespace WebApiApp.Data
         public Command GetCommandFromId(int id)
         {
             return _commanderContext.Commands.FirstOrDefault(p => p.Id == id);
+        }
+
+        public void CreateCommand(Command command)
+        {
+            if (command == null)
+            {
+                throw new ArgumentNullException(nameof(command));
+            }
+
+            _commanderContext.Add(command);
+        }
+
+        public void UpdateCommand(Command command)
+        {
+            // nothing
+        }
+
+        public void DeleteCommand(Command command)
+        {
+            if (command == null)
+            {
+                throw new ArgumentNullException(nameof(command));
+            }
+            _commanderContext.Remove(command);
         }
     }
 }
